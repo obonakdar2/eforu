@@ -3,17 +3,11 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
-
-interface CarouselSlide {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-  buttonText?: string;
-}
+import type { SiteBanner } from "~/types/banner";
+import Image from "next/image";
 
 interface CarouselSliderProps {
-  slides: CarouselSlide[];
+  slides: SiteBanner[];
   autoSlideInterval?: number;
   className?: string;
 }
@@ -72,35 +66,15 @@ export function CarouselSlider({
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {slides.map((slide) => (
-          <div
-            key={slide.id}
-            className="relative h-full min-w-full bg-gradient-to-r from-blue-500 to-purple-600"
-            style={{
-              backgroundImage: `url(${slide.image})`,
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-            }}
-          >
-            {/* Overlay */}
-            <div className="bg-opacity-40 absolute inset-0 bg-black" />
-
-            {/* Content */}
-            <div className="absolute inset-0 flex items-center justify-center p-8 text-center text-white">
-              <div className="max-w-2xl">
-                <h2 className="mb-4 text-4xl font-bold md:text-5xl">
-                  {slide.title}
-                </h2>
-                <p className="mb-6 text-lg opacity-90 md:text-xl">
-                  {slide.description}
-                </p>
-                {slide.buttonText && (
-                  <button className="rounded-full bg-white px-8 py-3 font-semibold text-gray-900 transition-colors duration-200 hover:bg-gray-100">
-                    {slide.buttonText}
-                  </button>
-                )}
-              </div>
-            </div>
-          </div>
+          <Image
+            key={slide.siteBannerId}
+            src={slide.imageUrl}
+            alt={slide.description}
+            width={1440}
+            height={336}
+            className="w-full object-cover"
+            objectFit="cover"
+          />
         ))}
       </div>
 
@@ -128,7 +102,7 @@ export function CarouselSlider({
             key={index}
             onClick={() => goToSlide(index)}
             className={cn(
-              "h-3 w-3 rounded-full transition-all duration-200",
+              "h-3 w-3 cursor-pointer rounded-full transition-all duration-200",
               currentSlide === index
                 ? "scale-110 bg-white"
                 : "bg-opacity-50 hover:bg-opacity-75 bg-white",

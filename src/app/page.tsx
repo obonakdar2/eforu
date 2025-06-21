@@ -1,45 +1,20 @@
 import { CarouselSlider } from "~/components/ui/carousel-slider";
+import type { BannerApiResponse } from "~/types/banner";
 
-const slides = [
-  {
-    id: 1,
-    title: "Welcome to Our Platform",
-    description:
-      "Discover amazing features and endless possibilities with our innovative solutions.",
-    image: "/placeholder.svg?height=400&width=800",
-    buttonText: "Get Started",
-  },
-  {
-    id: 2,
-    title: "Build Something Great",
-    description:
-      "Transform your ideas into reality with our powerful tools and resources.",
-    image: "/placeholder.svg?height=400&width=800",
-    buttonText: "Learn More",
-  },
-  {
-    id: 3,
-    title: "Join Our Community",
-    description:
-      "Connect with like-minded individuals and grow together in our vibrant community.",
-    image: "/placeholder.svg?height=400&width=800",
-    buttonText: "Join Now",
-  },
-  {
-    id: 4,
-    title: "Experience Innovation",
-    description:
-      "Stay ahead of the curve with cutting-edge technology and forward-thinking solutions.",
-    image: "/placeholder.svg?height=400&width=800",
-    buttonText: "Explore",
-  },
-];
+async function getBannerData() {
+  const res = await fetch(
+    "https://api.entekhabgroup.com/club-awards/v1/SiteBanner/GetSiteBanner",
+  );
+  return (await res.json()) as BannerApiResponse;
+}
 
-export default function HomePage() {
+export default async function HomePage() {
+  const bannerData = await getBannerData();
+
   return (
     <div className="min-h-screen bg-gray-50">
       <CarouselSlider
-        slides={slides}
+        slides={bannerData.data}
         autoSlideInterval={2000}
         className="mx-auto w-full"
       />
