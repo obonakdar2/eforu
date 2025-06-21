@@ -1,37 +1,89 @@
-import Link from "next/link";
+import { CarouselSlider } from "~/components/ui/carousel-slider";
+
+const slides = [
+  {
+    id: 1,
+    title: "Welcome to Our Platform",
+    description:
+      "Discover amazing features and endless possibilities with our innovative solutions.",
+    image: "/placeholder.svg?height=400&width=800",
+    buttonText: "Get Started",
+  },
+  {
+    id: 2,
+    title: "Build Something Great",
+    description:
+      "Transform your ideas into reality with our powerful tools and resources.",
+    image: "/placeholder.svg?height=400&width=800",
+    buttonText: "Learn More",
+  },
+  {
+    id: 3,
+    title: "Join Our Community",
+    description:
+      "Connect with like-minded individuals and grow together in our vibrant community.",
+    image: "/placeholder.svg?height=400&width=800",
+    buttonText: "Join Now",
+  },
+  {
+    id: 4,
+    title: "Experience Innovation",
+    description:
+      "Stay ahead of the curve with cutting-edge technology and forward-thinking solutions.",
+    image: "/placeholder.svg?height=400&width=800",
+    buttonText: "Explore",
+  },
+];
 
 export default function HomePage() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] text-white">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-        <h1 className="text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]">
-          Create <span className="text-[hsl(280,100%,70%)]">T3</span> App
-        </h1>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8">
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/usage/first-steps"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">First Steps →</h3>
-            <div className="text-lg">
-              Just the basics - Everything you need to know to set up your
-              database and authentication.
-            </div>
-          </Link>
-          <Link
-            className="flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"
-            href="https://create.t3.gg/en/introduction"
-            target="_blank"
-          >
-            <h3 className="text-2xl font-bold">Documentation →</h3>
-            <div className="text-lg">
-              Learn more about Create T3 App, the libraries it uses, and how to
-              deploy it.
-            </div>
-          </Link>
+    <div className="min-h-screen bg-gray-50">
+      <CarouselSlider
+        slides={slides}
+        autoSlideInterval={2000}
+        className="mx-auto w-full"
+      />
+
+      {/* Hero Section with Carousel */}
+      <section className="container mx-auto px-4 py-8">
+        <div className="mb-8 text-center">
+          <h1 className="mb-4 text-3xl font-bold text-gray-900">
+            Welcome to Our Homepage
+          </h1>
+          <p className="mx-auto max-w-2xl text-gray-600">
+            Experience our interactive carousel that automatically slides every
+            2 seconds. Hover to pause, click the dots to navigate, or use the
+            arrow buttons.
+          </p>
         </div>
-      </div>
-    </main>
+      </section>
+
+      {/* Additional Content */}
+      <section className="container mx-auto px-4 py-16">
+        <div className="grid gap-8 md:grid-cols-3">
+          <div className="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 className="mb-3 text-xl font-semibold">Feature One</h3>
+            <p className="text-gray-600">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore.
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 className="mb-3 text-xl font-semibold">Feature Two</h3>
+            <p className="text-gray-600">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore.
+            </p>
+          </div>
+          <div className="rounded-lg bg-white p-6 text-center shadow-md">
+            <h3 className="mb-3 text-xl font-semibold">Feature Three</h3>
+            <p className="text-gray-600">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
+              eiusmod tempor incididunt ut labore.
+            </p>
+          </div>
+        </div>
+      </section>
+    </div>
   );
 }
