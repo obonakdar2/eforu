@@ -8,8 +8,8 @@ interface RewardCardProps {
 
 export const RewardCard = ({ data }: RewardCardProps) => {
   return (
-    <Card>
-      <div className="p-6">
+    <Card className="h-full">
+      <div className="flex h-full flex-col justify-between p-6">
         {/* Card Header */}
         <div className="mb-4 flex items-start justify-between">
           <div className="flex items-center gap-3">
@@ -35,7 +35,7 @@ export const RewardCard = ({ data }: RewardCardProps) => {
         </div>
 
         {/* Description */}
-        <p className="mb-4 text-sm leading-relaxed text-gray-600">
+        <p className="mb-4 line-clamp-3 overflow-hidden text-sm leading-relaxed text-gray-600">
           {data.description}
         </p>
 

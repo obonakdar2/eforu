@@ -1,11 +1,10 @@
 "use client";
 
-import type React from "react";
-import { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { IconButton } from "~/components/ui/icon-button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import type { RewardApiResponse } from "~/types/rewards";
 import { useSuspenseQuery } from "@tanstack/react-query";
+import type { RewardApiResponse } from "~/types/rewards";
 import { RewardCard } from "./reward-card";
 
 async function getRewardData() {
@@ -23,41 +22,20 @@ async function getRewardData() {
 
 export default function CardSlider() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [visibleCards, setVisibleCards] = useState(3);
-
   const { data: slides } = useSuspenseQuery({
     queryKey: ["rewards"],
-    queryFn: () => getRewardData(),
+    queryFn: getRewardData,
   });
 
-  useEffect(() => {
-    const updateVisibleCards = () => {
-      if (window.innerWidth < 640) {
-        setVisibleCards(1);
-      } else if (window.innerWidth < 1024) {
-        setVisibleCards(2);
-      } else {
-        setVisibleCards(3);
-      }
-    };
-
-    updateVisibleCards();
-    window.addEventListener("resize", updateVisibleCards);
-    return () => window.removeEventListener("resize", updateVisibleCards);
-  }, []);
-
+  const visibleCards = 3;
   const maxIndex = Math.max(0, slides.length - visibleCards);
 
-  const goToNext = () => {
-    setCurrentIndex((prev) => Math.max(0, prev - 1));
-  };
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => Math.min(maxIndex, prev + 1));
-  };
+  const goToNext = () =>
+    setCurrentIndex((prev) => Math.min(prev + 1, maxIndex));
+  const goToPrevious = () => setCurrentIndex((prev) => Math.max(prev - 1, 0));
 
   return (
-    <div className="mx-auto w-full max-w-7xl p-6">
+    <div dir="rtl" className="mx-auto w-full max-w-7xl p-6">
       {/* Header */}
       <div className="rounded-t-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-6">
         <div className="flex items-center justify-between">
@@ -68,38 +46,34 @@ export default function CardSlider() {
       {/* Slider Container */}
       <div className="rounded-b-2xl bg-gradient-to-r from-blue-600 to-blue-800 p-6 pt-0">
         <div className="relative">
-          {/* Navigation Arrows */}
+          {/* Navigation */}
           <IconButton
             onClick={goToPrevious}
+            disabled={currentIndex === 0}
+            className="absolute top-1/2 right-0 z-10 -translate-y-1/2"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </IconButton>
+          <IconButton
+            onClick={goToNext}
             disabled={currentIndex >= maxIndex}
             className="absolute top-1/2 left-0 z-10 -translate-y-1/2"
           >
             <ChevronLeft className="h-5 w-5" />
           </IconButton>
 
-          <IconButton
-            onClick={goToNext}
-            disabled={currentIndex === 0}
-            className="absolute top-1/2 right-0 z-10 -translate-y-1/2"
-          >
-            <ChevronRight className="h-5 w-5" />
-          </IconButton>
-
-          {/* Cards Container */}
+          {/* Cards */}
           <div className="mx-12 overflow-hidden">
             <div
               className="flex gap-4 transition-transform duration-300 ease-in-out"
               style={{
-                transform: `translateX(${currentIndex * (100 / visibleCards)}%)`,
+                transform: `translateX(calc(${currentIndex * 100 * (1 / visibleCards)}% + ${currentIndex * 16}px))`,
               }}
             >
               {slides.map((item) => (
                 <div
                   key={item.rewardPointId}
-                  className="flex-shrink-0"
-                  style={{
-                    width: `calc(${100 / visibleCards}% - ${((visibleCards - 1) * 16) / visibleCards}px)`,
-                  }}
+                  className="flex-shrink-0 basis-full sm:basis-1/2 lg:basis-1/3"
                 >
                   <RewardCard data={item} />
                 </div>
@@ -108,15 +82,15 @@ export default function CardSlider() {
           </div>
         </div>
 
-        {/* Dots Indicator */}
+        {/* Dots */}
         <div className="mt-6 flex justify-center gap-2">
           {Array.from({ length: maxIndex + 1 }).map((_, index) => (
             <button
               key={index}
+              onClick={() => setCurrentIndex(index)}
               className={`h-2 w-2 rounded-full transition-colors ${
                 index === currentIndex ? "bg-white" : "bg-white/40"
               }`}
-              onClick={() => setCurrentIndex(index)}
             />
           ))}
         </div>
