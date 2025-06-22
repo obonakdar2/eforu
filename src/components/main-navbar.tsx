@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { Menu, Search, Bell, User, ChevronDown } from "lucide-react";
+import { mainNavItems } from "~/config/navigation";
 
 interface MainNavbarProps {
   onMobileMenuToggle: () => void;
@@ -12,7 +13,7 @@ export function MainNavbar({ onMobileMenuToggle }: MainNavbarProps) {
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-40 border-b border-gray-200 bg-white shadow-sm">
+    <nav className="fixed top-0 right-0 left-0 z-40 border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Right side - Logo and main nav */}
@@ -40,41 +41,16 @@ export function MainNavbar({ onMobileMenuToggle }: MainNavbarProps) {
 
             {/* Main navigation - hidden on mobile */}
             <div className="hidden items-center gap-6 lg:flex">
-              <Link
-                href="/"
-                className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
-              >
-                خانه
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/dashboard"
-                className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
-              >
-                باشگاه مشتریان
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/products"
-                className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
-              >
-                محصولات
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/services"
-                className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
-              >
-                خدمات
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
-              <Link
-                href="/contact"
-                className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
-              >
-                تماس با ما
-                <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
-              </Link>
+              {mainNavItems.map((item) => (
+                <Link
+                  key={item.title}
+                  href={item.url}
+                  className="group relative text-gray-700 transition-all duration-200 hover:text-gray-900"
+                >
+                  {item.title}
+                  <span className="absolute bottom-0 left-0 h-0.5 w-0 bg-blue-600 transition-all duration-200 group-hover:w-full"></span>
+                </Link>
+              ))}
             </div>
           </div>
 

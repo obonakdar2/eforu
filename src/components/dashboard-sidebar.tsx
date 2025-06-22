@@ -1,30 +1,8 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, User, Home, Settings, LogOut } from "lucide-react";
-
-const navItems = [
-  {
-    title: "نمای کلی",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "آمار فروش",
-    url: "/dashboard/charts",
-    icon: BarChart3,
-  },
-  {
-    title: "پروفایل مشتری",
-    url: "/dashboard/user-info",
-    icon: User,
-  },
-  {
-    title: "تنظیمات حساب",
-    url: "/dashboard/settings",
-    icon: Settings,
-  },
-];
+import { BarChart3, LogOut } from "lucide-react";
+import { dashboardNavItems } from "~/config/navigation";
 
 export function DashboardSidebar() {
   const pathname = usePathname();
@@ -54,7 +32,7 @@ export function DashboardSidebar() {
             <p className="mb-3 text-xs font-semibold tracking-wider text-gray-400 uppercase">
               منوی باشگاه مشتریان
             </p>
-            {navItems.map((item) => {
+            {dashboardNavItems.map((item) => {
               const isActive = pathname === item.url;
               return (
                 <Link
@@ -67,7 +45,7 @@ export function DashboardSidebar() {
                   } `}
                 >
                   <span className="font-medium">{item.title}</span>
-                  <item.icon className="h-5 w-5" />
+                  {item.icon && <item.icon className="h-5 w-5" />}
                 </Link>
               );
             })}

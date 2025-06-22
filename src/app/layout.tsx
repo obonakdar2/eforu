@@ -4,6 +4,7 @@ import { type Metadata } from "next";
 
 import localFont from "next/font/local";
 import Providers from "./providers";
+import ClientLayout from "./client-layout";
 
 export const metadata: Metadata = {
   title: "Create T3 App",
@@ -21,7 +22,9 @@ export default function RootLayout({
   return (
     <html dir="rtl" lang="fa" className={`${iranSans.className} ss02`}>
       <body>
-        <Providers>{children}</Providers>
+        <Providers>
+          <ClientLayout>{children}</ClientLayout>
+        </Providers>
       </body>
     </html>
   );

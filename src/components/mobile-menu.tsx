@@ -3,38 +3,8 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { X, Home, BarChart3, User, Settings, LogOut } from "lucide-react";
-
-const mainNavItems = [
-  { title: "خانه", url: "/" },
-  { title: "محصولات", url: "/products" },
-  { title: "خدمات", url: "/services" },
-  { title: "درباره ما", url: "/about" },
-  { title: "تماس با ما", url: "/contact" },
-];
-
-const dashboardNavItems = [
-  {
-    title: "نمای کلی",
-    url: "/dashboard",
-    icon: Home,
-  },
-  {
-    title: "نمودارها",
-    url: "/dashboard/charts",
-    icon: BarChart3,
-  },
-  {
-    title: "اطلاعات کاربر",
-    url: "/dashboard/user-info",
-    icon: User,
-  },
-  {
-    title: "تنظیمات",
-    url: "/dashboard/settings",
-    icon: Settings,
-  },
-];
+import { X, User, LogOut } from "lucide-react";
+import { mainNavItems, dashboardNavItems } from "~/config/navigation";
 
 interface MobileMenuProps {
   isOpen: boolean;
@@ -171,7 +141,7 @@ export function MobileMenu({
                             onClick={onClose}
                           >
                             <span className="font-medium">{item.title}</span>
-                            <item.icon className="h-4 w-4" />
+                            {item.icon && <item.icon className="h-4 w-4" />}
                           </Link>
                         </div>
                       );
