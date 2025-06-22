@@ -1,39 +1,19 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
-import type { SiteBanner } from "~/types/banner";
-import Image from "next/image";
+import type { RewardItem } from "~/types/rewards";
+import { RewardCard } from "./reward-card";
 
-interface CarouselSliderProps {
-  slides: SiteBanner[];
+interface RewardsSliderProps {
+  slides: RewardItem[];
   autoSlideInterval?: number;
   className?: string;
 }
 
-export function CarouselSlider({
-  slides,
-  autoSlideInterval = 2000,
-  className,
-}: CarouselSliderProps) {
+export function RewardsSlider({ slides, className }: RewardsSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-
-  // Auto-slide functionality
-  useEffect(() => {
-    if (!isHovered && slides.length > 1) {
-      const interval = setInterval(() => {
-        setCurrentSlide((prev) => (prev + 1) % slides.length);
-      }, autoSlideInterval);
-
-      return () => clearInterval(interval);
-    }
-  }, [slides.length, autoSlideInterval, isHovered]);
-
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
 
   const goToPrevious = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
@@ -57,8 +37,6 @@ export function CarouselSlider({
         "relative h-96 w-full overflow-hidden shadow-lg",
         className,
       )}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Slides Container */}
       <div
@@ -66,14 +44,12 @@ export function CarouselSlider({
         style={{ transform: `translateX(-${currentSlide * 100}%)` }}
       >
         {slides.map((slide) => (
-          <Image
-            key={slide.siteBannerId}
-            src={slide.imageUrl}
-            alt={slide.description}
-            width={1440}
-            height={336}
-            className="w-full object-cover"
-            objectFit="cover"
+          <RewardCard
+            key={slide.rewardPointId}
+            rewardName={slide.rewardName}
+            urlImage={slide.urlImage}
+            points={slide.points}
+            persianDeadlineDate={slide.persianDeadlineDate}
           />
         ))}
       </div>
@@ -94,23 +70,6 @@ export function CarouselSlider({
       >
         <ChevronRight className="h-6 w-6" />
       </button>
-
-      {/* Pagination Dots */}
-      <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 transform space-x-2">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            onClick={() => goToSlide(index)}
-            className={cn(
-              "h-3 w-3 cursor-pointer rounded-full transition-all duration-200",
-              currentSlide === index
-                ? "scale-110 bg-white"
-                : "bg-opacity-50 hover:bg-opacity-75 bg-white",
-            )}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
     </div>
   );
 }
