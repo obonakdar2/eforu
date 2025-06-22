@@ -1,34 +1,11 @@
 import { HeroSlider } from "~/components/hero-slider";
 import { RewardsSlider } from "~/components/rewards-slider";
-import type { BannerApiResponse } from "~/types/banner";
-import type { RewardApiResponse } from "~/types/rewards";
-
-async function getBannerData() {
-  const res = await fetch(
-    "https://api.entekhabgroup.com/club-awards/v1/SiteBanner/GetSiteBanner",
-  );
-  return (await res.json()) as BannerApiResponse;
-}
-
-async function getRewardData() {
-  const res = await fetch(
-    "https://api.entekhabgroup.com/club-awards/v1/RewardPoint/GetAllRewards",
-  );
-  return (await res.json()) as RewardApiResponse;
-}
 
 export default async function HomePage() {
-  const bannerData = await getBannerData();
-  const rewardData = await getRewardData();
-
   return (
     <div className="min-h-screen bg-gray-50">
-      <HeroSlider
-        slides={bannerData.data}
-        autoSlideInterval={2000}
-        className="mx-auto w-full"
-      />
-      <RewardsSlider slides={rewardData.data} />
+      <HeroSlider autoSlideInterval={2000} className="mx-auto w-full" />
+      <RewardsSlider />
 
       {/* Hero Section with Carousel */}
       <section className="container mx-auto px-4 py-8">

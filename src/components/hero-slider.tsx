@@ -3,22 +3,38 @@
 import { useState, useEffect } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
-import type { SiteBanner } from "~/types/banner";
+import type { BannerApiResponse } from "~/types/banner";
 import Image from "next/image";
+import { useSuspenseQuery } from "@tanstack/react-query";
+
+async function getBannerData() {
+  const res = await fetch(
+    "https://api.entekhabgroup.com/club-awards/v1/SiteBanner/GetSiteBanner",
+  );
+  const response = (await res.json()) as BannerApiResponse;
+
+  if (response.result !== "ok") {
+    throw new Error(response.message.value || "Request failed");
+  }
+
+  return response.data;
+}
 
 interface HeroSliderProps {
-  slides: SiteBanner[];
   autoSlideInterval?: number;
   className?: string;
 }
 
 export function HeroSlider({
-  slides,
   autoSlideInterval = 2000,
   className,
 }: HeroSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const { data: slides } = useSuspenseQuery({
+    queryKey: ["banners"],
+    queryFn: () => getBannerData(),
+  });
 
   // Auto-slide functionality
   useEffect(() => {

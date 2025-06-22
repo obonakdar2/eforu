@@ -3,17 +3,34 @@
 import { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
-import type { RewardItem } from "~/types/rewards";
+import type { RewardApiResponse } from "~/types/rewards";
 import { RewardCard } from "./reward-card";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 interface RewardsSliderProps {
-  slides: RewardItem[];
   autoSlideInterval?: number;
   className?: string;
 }
 
-export function RewardsSlider({ slides, className }: RewardsSliderProps) {
+async function getRewardData() {
+  const res = await fetch(
+    "https://api.entekhabgroup.com/club-awards/v1/RewardPoint/GetAllRewards",
+  );
+  const response = (await res.json()) as RewardApiResponse;
+
+  if (response.result !== "ok") {
+    throw new Error(response.message.value || "Request failed");
+  }
+
+  return response.data;
+}
+
+export function RewardsSlider({ className }: RewardsSliderProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const { data: slides } = useSuspenseQuery({
+    queryKey: ["rewards"],
+    queryFn: () => getRewardData(),
+  });
 
   const goToPrevious = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
