@@ -69,6 +69,7 @@ export function HeroSlider({
 
   return (
     <div
+      dir="ltr"
       className={cn(
         "relative h-96 w-full overflow-hidden shadow-lg",
         className,

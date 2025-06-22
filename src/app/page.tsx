@@ -1,5 +1,5 @@
 import { HeroSlider } from "~/components/hero-slider";
-import { RewardsSlider } from "~/components/rewards-slider";
+import RewardsSlider from "~/components/rewards-slider";
 
 export default async function HomePage() {
   return (

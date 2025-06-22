@@ -19,7 +19,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${iranSans.className}`}>
+    <html dir="rtl" lang="fa" className={`${iranSans.className}`}>
       <body>
         <Providers>{children}</Providers>
       </body>
