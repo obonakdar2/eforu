@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Card,
   CardContent,
@@ -7,10 +9,14 @@ import {
 } from "~/components/ui/card";
 import { Button } from "~/components/ui/button";
 import { Mail, Phone, MapPin, Calendar, Edit, User } from "lucide-react";
+import { useSession } from "next-auth/react";
 
 export default function UserInfoPage() {
+  const session = useSession();
+
   return (
-    <div className="space-y-6">
+    <div dir="rtl" className="space-y-6 text-right">
+      {/* Header */}
       <div>
         <h1 className="text-3xl font-bold text-gray-900">اطلاعات کاربر</h1>
         <p className="mt-2 text-gray-600">
@@ -18,17 +24,20 @@ export default function UserInfoPage() {
         </p>
       </div>
 
+      {/* Two Column Section */}
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {/* Profile Card */}
         <Card>
           <CardHeader>
             <CardTitle>اطلاعات پروفایل</CardTitle>
             <CardDescription>جزئیات شخصی و اطلاعات تماس شما</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex items-center space-x-4 space-x-reverse">
+            {/* Profile Top */}
+            <div className="flex items-center gap-4">
               <div>
                 <h3 className="text-lg font-semibold text-gray-900">
-                  مهندس رضا کریمی
+                  {session.data?.user.name}
                 </h3>
                 <p className="text-sm text-gray-600">
                   مدیر خرید شرکت ساختمانی پارس
@@ -42,34 +51,36 @@ export default function UserInfoPage() {
               </div>
             </div>
 
+            {/* Contact Info */}
             <div className="space-y-3">
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <span className="text-sm text-gray-700">
-                  reza.karimi@parsco.ir
-                </span>
+              <div className="flex items-center justify-end gap-2">
                 <Mail className="h-4 w-4 text-gray-400" />
+                <span className="text-sm text-gray-700">
+                  {session.data?.user.email}
+                </span>
               </div>
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <span className="text-sm text-gray-700">۰۲۱-۸۸۷۷۶۶۵۵</span>
+              <div className="flex items-center justify-end gap-2">
                 <Phone className="h-4 w-4 text-gray-400" />
+                <span className="text-sm text-gray-700">۰۲۱-۸۸۷۷۶۶۵۵</span>
               </div>
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <span className="text-sm text-gray-700">تهران، منطقه ۲</span>
+              <div className="flex items-center justify-end gap-2">
                 <MapPin className="h-4 w-4 text-gray-400" />
+                <span className="text-sm text-gray-700">تهران، منطقه ۲</span>
               </div>
-              <div className="flex items-center space-x-3 space-x-reverse">
-                <span className="text-sm text-gray-700">عضویت از مهر ۱۴۰۱</span>
+              <div className="flex items-center justify-end gap-2">
                 <Calendar className="h-4 w-4 text-gray-400" />
+                <span className="text-sm text-gray-700">عضویت از مهر ۱۴۰۱</span>
               </div>
             </div>
 
-            <Button className="w-full">
+            <Button className="flex w-full flex-row-reverse items-center justify-center gap-2">
+              <Edit className="h-4 w-4" />
               <span>ویرایش پروفایل</span>
-              <Edit className="mr-2 h-4 w-4" />
             </Button>
           </CardContent>
         </Card>
 
+        {/* Stats Card */}
         <Card>
           <CardHeader>
             <CardTitle>آمار حساب کاربری</CardTitle>
@@ -77,29 +88,29 @@ export default function UserInfoPage() {
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-lg bg-gray-50 p-4 text-center">
-                <div className="text-2xl font-bold text-gray-900">۴۸</div>
-                <div className="text-sm text-gray-600">سفارش</div>
-              </div>
-              <div className="rounded-lg bg-gray-50 p-4 text-center">
-                <div className="text-2xl font-bold text-gray-900">
-                  ۲.۸ میلیارد
+              {[
+                { title: "سفارش", value: "۴۸", color: "text-gray-900" },
+                {
+                  title: "کل خرید (ریال)",
+                  value: "۲.۸ میلیارد",
+                  color: "text-gray-900",
+                },
+                { title: "رضایت", value: "۹۵%", color: "text-green-600" },
+                { title: "پروژه فعال", value: "۱۲", color: "text-gray-900" },
+              ].map((item, i) => (
+                <div key={i} className="rounded-lg bg-gray-50 p-4 text-center">
+                  <div className={`text-2xl font-bold ${item.color}`}>
+                    {item.value}
+                  </div>
+                  <div className="text-sm text-gray-600">{item.title}</div>
                 </div>
-                <div className="text-sm text-gray-600">کل خرید (ریال)</div>
-              </div>
-              <div className="rounded-lg bg-gray-50 p-4 text-center">
-                <div className="text-2xl font-bold text-green-600">۹۵%</div>
-                <div className="text-sm text-gray-600">رضایت</div>
-              </div>
-              <div className="rounded-lg bg-gray-50 p-4 text-center">
-                <div className="text-2xl font-bold text-gray-900">۱۲</div>
-                <div className="text-sm text-gray-600">پروژه فعال</div>
-              </div>
+              ))}
             </div>
 
+            {/* Progress Bars */}
             <div className="space-y-4">
               <div>
-                <div className="mb-2 flex justify-between text-sm">
+                <div className="mb-2 flex flex-row-reverse justify-between text-sm">
                   <span className="text-gray-600">
                     ۱۲.۴ میلیارد / ۵۰ میلیارد ریال
                   </span>
@@ -114,7 +125,7 @@ export default function UserInfoPage() {
               </div>
 
               <div>
-                <div className="mb-2 flex justify-between text-sm">
+                <div className="mb-2 flex flex-row-reverse justify-between text-sm">
                   <span className="text-gray-600">۲۸ / ۱۰۰</span>
                   <span className="text-gray-700">سفارشات این ماه</span>
                 </div>
@@ -130,6 +141,7 @@ export default function UserInfoPage() {
         </Card>
       </div>
 
+      {/* Recent Activity */}
       <Card>
         <CardHeader>
           <CardTitle>فعالیت‌های اخیر</CardTitle>
@@ -158,16 +170,13 @@ export default function UserInfoPage() {
                 date: "۱ هفته پیش",
                 type: "visit",
               },
-            ].map((activity, index) => (
+            ].map((activity, i) => (
               <div
-                key={index}
-                className="flex items-center justify-between border-b border-gray-100 py-3 last:border-b-0"
+                key={i}
+                className="flex flex-row-reverse items-center justify-between border-b border-gray-100 py-3 last:border-b-0"
               >
                 <span className="text-xs text-gray-500">{activity.date}</span>
-                <div className="flex items-center space-x-3 space-x-reverse">
-                  <span className="text-sm text-gray-900">
-                    {activity.action}
-                  </span>
+                <div className="flex flex-row-reverse items-center gap-2">
                   <div
                     className={`h-2 w-2 rounded-full ${
                       activity.type === "profile"
@@ -179,6 +188,9 @@ export default function UserInfoPage() {
                             : "bg-purple-500"
                     }`}
                   ></div>
+                  <span className="text-sm text-gray-900">
+                    {activity.action}
+                  </span>
                 </div>
               </div>
             ))}
