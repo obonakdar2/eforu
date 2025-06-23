@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { motion, useMotionValue } from "framer-motion";
+import { motion, useMotionValue } from "motion/react";
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IconButton } from "~/components/ui/icon-button";
@@ -10,13 +10,6 @@ import { RewardCard } from "../reward-card";
 import { CardSliderSkeleton } from "./reward-slider-skeleton";
 import { CardSliderError } from "./reward-slider-error";
 import { CardSliderEmpty } from "./reward-slider-empty";
-
-const SPRING_OPTIONS = {
-  type: "spring" as const,
-  mass: 2,
-  stiffness: 500,
-  damping: 50,
-};
 
 async function getRewardData() {
   const res = await fetch(
@@ -136,9 +129,8 @@ export default function Slider() {
             onDragEnd={handleDragEnd}
             dragConstraints={{ left: 0, right: 0 }}
             animate={{
-              x: `calc(${cardIndex * (100 / visibleCards)}% + ${cardIndex * 16}px)`,
+              translate: `calc(${cardIndex * (100 / visibleCards)}% + ${cardIndex * 16}px)`,
             }}
-            transition={SPRING_OPTIONS}
           >
             {cardsData.map((item) => (
               <div

@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BarChart3, LogOut } from "lucide-react";
+import { BarChart3 } from "lucide-react";
 import { dashboardNavItems } from "~/config/navigation";
 
 export function DashboardSidebar() {
@@ -51,14 +51,6 @@ export function DashboardSidebar() {
             })}
           </div>
         </nav>
-
-        {/* Footer - Fixed at bottom */}
-        <div className="flex-shrink-0 border-t border-gray-200 p-4">
-          <button className="flex w-full items-center gap-3 rounded-lg px-3 py-2 text-gray-700 transition-all duration-200 hover:bg-red-50 hover:text-red-700">
-            <span className="font-medium">خروج از باشگاه</span>
-            <LogOut className="h-5 w-5" />
-          </button>
-        </div>
       </div>
     </div>
   );

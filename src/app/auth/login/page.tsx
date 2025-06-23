@@ -1,11 +1,37 @@
+"use client";
+
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Input } from "~/components/ui/input";
 import { Button } from "~/components/ui/button";
 import { Card, CardHeader, CardContent } from "~/components/ui/card";
 import { UserIcon, LockIcon } from "lucide-react";
-import { signIn } from "~/server/auth";
 import { PasswordInput } from "~/components/ui/password-input";
 
 export default function LoginPage() {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+
+    const result = await signIn("credentials", {
+      redirect: false,
+      username,
+      password,
+    });
+
+    if (result?.ok) {
+      router.push("/");
+    } else {
+      setError("نام کاربری یا رمز عبور اشتباه است");
+    }
+  };
+
   return (
     <div
       className="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-4"
@@ -27,13 +53,7 @@ export default function LoginPage() {
         </CardHeader>
 
         <CardContent>
-          <form
-            action={async (formData) => {
-              "use server";
-              await signIn("credentials", formData);
-            }}
-            className="flex flex-col gap-4"
-          >
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <Input
               id="username"
               name="username"
@@ -41,11 +61,21 @@ export default function LoginPage() {
               label="نام کاربری"
               placeholder="نام کاربری خود را وارد کنید"
               icon={<UserIcon className="h-5 w-5 text-gray-400" />}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
-            <PasswordInput />
 
-            <Button type="submit" className="w-full" size="lg">
+            <PasswordInput
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            {error && (
+              <p className="text-center text-sm text-red-600">{error}</p>
+            )}
+
+            <Button type="submit" className="w-full cursor-pointer" size="lg">
               ورود
             </Button>
           </form>

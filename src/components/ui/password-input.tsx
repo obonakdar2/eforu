@@ -4,7 +4,12 @@ import { useState } from "react";
 import { Input } from "./input";
 import { LockIcon, EyeIcon, EyeOffIcon } from "lucide-react";
 
-export const PasswordInput = () => {
+interface PasswordInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+export const PasswordInput = ({ value, onChange }: PasswordInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
@@ -12,6 +17,8 @@ export const PasswordInput = () => {
       id="password"
       name="password"
       type={showPassword ? "text" : "password"}
+      value={value}
+      onChange={onChange}
       label="رمز عبور"
       placeholder="رمز عبور خود را وارد کنید"
       icon={<LockIcon className="h-5 w-5 text-gray-400" />}
