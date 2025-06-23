@@ -104,7 +104,7 @@ export default function Slider() {
             <IconButton
               onClick={() => setCardIndex((i) => Math.max(i - 1, 0))}
               disabled={cardIndex === 0}
-              className="absolute top-1/2 right-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/30"
+              className="absolute top-1/2 right-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:block"
               aria-label="قبلی"
             >
               <ChevronRight className="h-5 w-5" />
@@ -112,7 +112,7 @@ export default function Slider() {
             <IconButton
               onClick={() => setCardIndex((i) => Math.min(i + 1, maxIndex))}
               disabled={cardIndex >= maxIndex}
-              className="absolute top-1/2 left-4 z-10 -translate-y-1/2 bg-white/20 hover:bg-white/30"
+              className="absolute top-1/2 left-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:block"
               aria-label="بعدی"
             >
               <ChevronLeft className="h-5 w-5" />
@@ -121,9 +121,9 @@ export default function Slider() {
         )}
 
         {/* Cards */}
-        <div className="mx-12 overflow-hidden">
+        <div className="overflow-hidden sm:mx-12">
           <motion.div
-            className="flex gap-4"
+            className="flex cursor-grab gap-4"
             drag="x"
             style={{ x: dragX }}
             onDragEnd={handleDragEnd}
