@@ -104,7 +104,7 @@ export default function Slider() {
             <IconButton
               onClick={() => setCardIndex((i) => Math.max(i - 1, 0))}
               disabled={cardIndex === 0}
-              className="absolute top-1/2 right-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:block"
+              className="absolute top-1/2 right-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:flex"
               aria-label="قبلی"
             >
               <ChevronRight className="h-5 w-5" />
@@ -112,7 +112,7 @@ export default function Slider() {
             <IconButton
               onClick={() => setCardIndex((i) => Math.min(i + 1, maxIndex))}
               disabled={cardIndex >= maxIndex}
-              className="absolute top-1/2 left-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:block"
+              className="absolute top-1/2 left-4 z-10 hidden -translate-y-1/2 bg-white/20 hover:bg-white/30 sm:flex"
               aria-label="بعدی"
             >
               <ChevronLeft className="h-5 w-5" />
