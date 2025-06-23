@@ -10,7 +10,7 @@ import {
 
 const chartData = [
   { month: "فرو", steel: 186, concrete: 80, machinery: 45 },
-  { month: "اسف", steel: 305, concrete: 200, machinery: 78 },
+  { month: "ارد", steel: 205, concrete: 150, machinery: 70 },
   { month: "خرد", steel: 237, concrete: 120, machinery: 92 },
   { month: "تیر", steel: 173, concrete: 190, machinery: 65 },
   { month: "مرد", steel: 209, concrete: 130, machinery: 88 },
@@ -19,7 +19,7 @@ const chartData = [
 
 const revenueData = [
   { month: "فرو", revenue: 240 },
-  { month: "اسف", revenue: 180 },
+  { month: "ارد", revenue: 210 },
   { month: "خرد", revenue: 320 },
   { month: "تیر", revenue: 285 },
   { month: "مرد", revenue: 390 },
@@ -32,40 +32,38 @@ function SimpleBarChart({ data }: { data: typeof chartData }) {
   );
 
   return (
-    <div className="space-y-4">
-      <div className="flex justify-center space-x-6 space-x-reverse text-sm">
-        <div className="flex items-center space-x-2 space-x-reverse">
+    <div className="space-y-4 overflow-x-auto">
+      <div className="flex justify-center gap-4 text-sm">
+        <div className="flex items-center gap-1">
           <span>فولاد</span>
           <div className="h-3 w-3 rounded bg-blue-500"></div>
         </div>
-        <div className="flex items-center space-x-2 space-x-reverse">
+        <div className="flex items-center gap-1">
           <span>بتن</span>
           <div className="h-3 w-3 rounded bg-green-500"></div>
         </div>
-        <div className="flex items-center space-x-2 space-x-reverse">
+        <div className="flex items-center gap-1">
           <span>ماشین‌آلات</span>
           <div className="h-3 w-3 rounded bg-purple-500"></div>
         </div>
       </div>
-      <div className="flex h-64 items-end justify-between space-x-2 space-x-reverse">
+
+      <div className="flex h-64 min-w-[400px] items-end justify-between gap-2 sm:min-w-0">
         {data.map((item, index) => (
-          <div
-            key={index}
-            className="flex flex-1 flex-col items-center space-y-2"
-          >
-            <div className="flex h-48 items-end space-x-1 space-x-reverse">
+          <div key={index} className="flex flex-1 flex-col items-center gap-1">
+            <div className="flex h-48 items-end gap-[2px]">
               <div
-                className="w-4 rounded-t bg-purple-500 transition-all duration-300"
+                className="w-2 rounded-t bg-purple-500 transition-all duration-300 sm:w-3 lg:w-4"
                 style={{ height: `${(item.machinery / maxValue) * 100}%` }}
                 title={`ماشین‌آلات: ${item.machinery}`}
               ></div>
               <div
-                className="w-4 rounded-t bg-green-500 transition-all duration-300"
+                className="w-2 rounded-t bg-green-500 transition-all duration-300 sm:w-3 lg:w-4"
                 style={{ height: `${(item.concrete / maxValue) * 100}%` }}
                 title={`بتن: ${item.concrete}`}
               ></div>
               <div
-                className="w-4 rounded-t bg-blue-500 transition-all duration-300"
+                className="w-2 rounded-t bg-blue-500 transition-all duration-300 sm:w-3 lg:w-4"
                 style={{ height: `${(item.steel / maxValue) * 100}%` }}
                 title={`فولاد: ${item.steel}`}
               ></div>
@@ -84,9 +82,12 @@ function SimpleLineChart({ data }: { data: typeof revenueData }) {
 
   return (
     <div className="space-y-4">
-      <div className="relative h-64">
-        <svg className="h-full w-full" viewBox="0 0 400 200">
-          {/* Grid lines */}
+      <div className="relative flex h-64 w-full flex-col">
+        <svg
+          className="h-full w-full"
+          viewBox="0 0 400 200"
+          preserveAspectRatio="none"
+        >
           {[0, 1, 2, 3, 4].map((i) => (
             <line
               key={i}
@@ -98,8 +99,6 @@ function SimpleLineChart({ data }: { data: typeof revenueData }) {
               strokeWidth="1"
             />
           ))}
-
-          {/* Line path */}
           <polyline
             fill="none"
             stroke="#3b82f6"
@@ -114,8 +113,6 @@ function SimpleLineChart({ data }: { data: typeof revenueData }) {
               })
               .join(" ")}
           />
-
-          {/* Data points */}
           {data.map((item, index) => {
             const x = (index / (data.length - 1)) * 380 + 10;
             const y =
@@ -136,11 +133,9 @@ function SimpleLineChart({ data }: { data: typeof revenueData }) {
         </svg>
 
         {/* X-axis labels */}
-        <div className="mt-2 flex justify-between px-2">
+        <div className="mt-3 flex justify-between px-2 text-xs text-gray-600">
           {data.map((item, index) => (
-            <span key={index} className="text-xs text-gray-600">
-              {item.month}
-            </span>
+            <span key={index}>{item.month}</span>
           ))}
         </div>
       </div>
