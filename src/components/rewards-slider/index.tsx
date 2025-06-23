@@ -12,9 +12,9 @@ import { CardSliderError } from "./reward-slider-error";
 import { CardSliderEmpty } from "./reward-slider-empty";
 
 const SPRING_OPTIONS = {
-  type: "spring",
-  mass: 3,
-  stiffness: 400,
+  type: "spring" as const,
+  mass: 2,
+  stiffness: 500,
   damping: 50,
 };
 
@@ -33,7 +33,24 @@ async function getRewardData() {
 
 export default function Slider() {
   const [cardIndex, setCardIndex] = useState(0);
-  const visibleCards = 3;
+  const [visibleCards, setVisibleCards] = useState(1);
+
+  useEffect(() => {
+    const updateVisibleCards = () => {
+      const width = window.innerWidth;
+      if (width >= 1024) {
+        setVisibleCards(3); // lg: basis-1/3
+      } else if (width >= 640) {
+        setVisibleCards(2); // sm: basis-1/2
+      } else {
+        setVisibleCards(1); // basis-full
+      }
+    };
+
+    updateVisibleCards(); // Run on mount
+    window.addEventListener("resize", updateVisibleCards);
+    return () => window.removeEventListener("resize", updateVisibleCards);
+  }, []);
   const dragX = useMotionValue(0);
 
   const {
@@ -55,7 +72,7 @@ export default function Slider() {
 
   const handleDragEnd = () => {
     const x = dragX.get();
-    const DRAG_BUFFER = 50;
+    const DRAG_BUFFER = 5;
 
     if (x > DRAG_BUFFER && cardIndex < maxIndex) {
       setCardIndex((prev) => prev + 1); // Drag right → Next
@@ -119,7 +136,7 @@ export default function Slider() {
             onDragEnd={handleDragEnd}
             dragConstraints={{ left: 0, right: 0 }}
             animate={{
-              translateX: `${cardIndex * (100 / visibleCards)}%`, // RTL offset
+              x: `calc(${cardIndex * (100 / visibleCards)}% + ${cardIndex * 16}px)`,
             }}
             transition={SPRING_OPTIONS}
           >
