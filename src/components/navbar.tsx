@@ -7,14 +7,14 @@ export default async function Navbar() {
     <nav className="border-b bg-white shadow-lg" dir="rtl">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Logo/Brand - Now on the right in RTL */}
+          {/* Logo/Brand */}
           <div className="flex-shrink-0">
             <h1 className="font-vazir text-xl font-bold text-gray-800">
               EForU
             </h1>
           </div>
 
-          {/* Desktop Navigation - Now on the left in RTL */}
+          {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="mr-10 flex items-baseline gap-4">
               <Link

@@ -40,7 +40,7 @@ export default function Slider() {
       }
     };
 
-    updateVisibleCards(); // Run on mount
+    updateVisibleCards();
     window.addEventListener("resize", updateVisibleCards);
     return () => window.removeEventListener("resize", updateVisibleCards);
   }, []);

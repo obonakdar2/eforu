@@ -14,7 +14,7 @@ export function MainNavbar({ onMobileMenuToggle }: MainNavbarProps) {
     <nav className="fixed top-0 right-0 left-0 z-40 border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
-          {/* Right side - Logo and main nav */}
+          {/* Logo and main nav */}
           <div className="flex items-center gap-8">
             {/* Mobile menu button with animation */}
             <button
@@ -52,7 +52,7 @@ export function MainNavbar({ onMobileMenuToggle }: MainNavbarProps) {
             </div>
           </div>
 
-          {/* Left side - Search, notifications, profile */}
+          {/*  Search, notifications, profile */}
           <div className="flex items-center gap-4">
             {/* Search - hidden on small screens */}
             <div className="hidden items-center md:flex">
