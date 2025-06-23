@@ -25,7 +25,9 @@ export default function LoginPage() {
       password,
     });
 
-    if (result?.ok) {
+    console.log(result);
+
+    if (!result?.error) {
       router.push("/");
     } else {
       setError("نام کاربری یا رمز عبور اشتباه است");
