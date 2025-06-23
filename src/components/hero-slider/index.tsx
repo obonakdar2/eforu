@@ -5,7 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "~/lib/utils";
 import type { BannerApiResponse } from "~/types/banner";
 import Image from "next/image";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { HeroSliderSkeleton } from "./hero-slider-skeleton";
 import { HeroSliderError } from "./hero-slider-error";
 
@@ -43,7 +43,7 @@ export function HeroSlider({
     data: slides,
     isPending,
     error,
-  } = useSuspenseQuery({
+  } = useQuery({
     queryKey: ["banners"],
     queryFn: getBannerData,
   });

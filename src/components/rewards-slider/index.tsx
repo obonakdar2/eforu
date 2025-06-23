@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, useMotionValue } from "motion/react";
-import { useSuspenseQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { IconButton } from "~/components/ui/icon-button";
 import type { RewardApiResponse } from "~/types/rewards";
@@ -50,7 +50,7 @@ export default function Slider() {
     data: cardsData,
     isPending,
     error,
-  } = useSuspenseQuery({
+  } = useQuery({
     queryKey: ["rewards"],
     queryFn: getRewardData,
   });
